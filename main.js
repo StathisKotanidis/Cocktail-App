@@ -19,14 +19,29 @@ function getCocktail() {
     .then((data) => {
       console.log(data);
       console.log(data.drinks);
-      //   let drinksArray = getDrinksNames(data.drinks);
-      //   console.log(drinksArray);
+      let cocktailIngredients = ''
+      let cocktailDescription = ''
+      data.drinks.forEach((element) => {
+        for (let i = 0; i <= 14; i++) {
+          if (element[`strIngredient${i + 1}`] != null) {
+            cocktailIngredients += element[`strIngredient${i + 1}`] + ', ';
+          }
+
+        }
+        cocktailDescription += `
+          <div class="cocktail-description">
+              <h1>${element.strDrink}</h1>
+              <img src="${element.strDrinkThumb}" alt="cocktail-image">
+              <p>Ingredients: ${cocktailIngredients}</p>
+          </div>
+      `;
+        cocktailIngredients = ''
+      })
+      cocktailsContainer.innerHTML = cocktailDescription
+
     })
     .catch((error) => {
       console.error("Fetch error", error);
     });
 }
 
-// function getDrinksNames(array) {
-//   return array.map((drink) => drink.strDrink);
-// }
